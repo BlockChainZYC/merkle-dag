@@ -1,6 +1,8 @@
 package merkledag
 
-import "hash"
+import (
+	"hash"
+)
 
 type Link struct {
 	Name string
@@ -13,7 +15,20 @@ type Object struct {
 	Data  []byte
 }
 
-func Add(store KVStore, node Node, h hash.Hash) []byte {
-	// TODO 将分片写入到KVStore中，并返回Merkle Root
-	return nil
+func Add(store KVStore, node Node, h hash.Hash) ([]byte, error) {
+	// 获取节点数据
+	data := node.Data()
+
+	// 计算数据的哈希值
+	h.Write(data)
+	merkleRoot := h.Sum(nil)
+
+	// 将数据和哈希值存储到KVStore中
+	err := store.Put(merkleRoot, data)
+	if err != nil {
+		return nil, err
+	}
+
+	// 返回Merkle Root
+	return merkleRoot, nil
 }

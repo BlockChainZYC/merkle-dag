@@ -9,6 +9,7 @@ type Node interface {
 	Size() uint64
 	Name() string
 	Type() int
+	Data() []byte
 }
 
 type File interface {
