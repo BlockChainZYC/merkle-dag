@@ -7,21 +7,21 @@ const (
 
 type Node interface {
 	Size() uint64
-	Name() string
 	Type() int
-	Data() []byte
 }
 
 type File interface {
 	Node
 
 	Bytes() []byte
+	Name() string
 }
 
 type Dir interface {
 	Node
 
 	It() DirIterator
+	Name() string
 }
 
 type DirIterator interface {
